@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import kotlin.math.PI
 import kotlin.math.atan2
+import kotlin.math.pow
 
 
 @TeleOp(name = "MyTeleOp", group = "TeleOp")
@@ -17,14 +18,9 @@ class MyTeleOp : LinearOpMode() {
 
         waitForStart()
 
-
+        val robot = Robot(hardwareMap)
 
         while (opModeIsActive()) {
-
-            val frontLeftMotor = hardwareMap.dcMotor.get("front_left_drive")
-            val frontRightMotor = hardwareMap.dcMotor.get("front_right_drive")
-            val backLeftMotor = hardwareMap.dcMotor.get("back_left_drive")
-            val backRightMotor = hardwareMap.dcMotor.get("back_right_drive")
 
             val controlX = gamepad1.left_stick_x
             val controlY = -gamepad1.left_stick_y
@@ -32,6 +28,8 @@ class MyTeleOp : LinearOpMode() {
             val radians = atan2(controlY, controlX)
             val degrees = radians * 180 / PI
 
+
+            robot.setDrive(0.0, 1.0, degrees);
         }
     }
 }
