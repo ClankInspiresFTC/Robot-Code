@@ -24,9 +24,9 @@ class MyAutonomous : LinearOpMode() {
         if (isStopRequested) {
             return
         }
-
-        robot.setDrive(1/2*PI, 1.0, 0.0)
-
+        while(opModeIsActive()) {
+            robot.setDrive(PI*0.5, 0.0, 0.0)
+        }
         telemetry.addData("Runtime", "%.2f s", runtime.seconds())
         telemetry.update()
     }
