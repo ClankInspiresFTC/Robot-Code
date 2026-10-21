@@ -6,7 +6,7 @@ import kotlin.math.PI
 import kotlin.math.atan2
 
 
-@TeleOp(name = "MyTeleOp", group = "TeleOp")
+@TeleOp(name = "ClankinspiresTeleOp", group = "TeleOp")
 class MyTeleOp : LinearOpMode() {
 
     override fun runOpMode() {
