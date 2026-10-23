@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import org.firstinspires.ftc.robotcore.external.Telemetry
 import kotlin.math.atan2
 import kotlin.math.hypot
 import kotlin.math.min
@@ -17,6 +18,8 @@ class MyTeleOp : LinearOpMode() {
 
         // send telemetry to both the driver station and FTC Dashboard (192.168.43.1:8080/dash on a Control Hub)
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
+        // monospace so the padded rows below line up into a label column and a value column
+        telemetry.setDisplayFormat(Telemetry.DisplayFormat.MONOSPACE)
 
         telemetry.addLine("Initialized - waiting for start")
         telemetry.update()
@@ -37,12 +40,21 @@ class MyTeleOp : LinearOpMode() {
 
             robot.setDrive(angle, power, turn)
 
-            telemetry.addData("Angle (deg)", "%.1f", Math.toDegrees(angle))
-            telemetry.addData("Power", "%.2f", power)
-            telemetry.addData("Turn", "%.2f", turn)
+            addRow("Angle", "%.1f°".format(Math.toDegrees(angle)))
+            addRow("Power", "%.2f".format(power))
+            addRow("Turn", "%.2f".format(turn))
             telemetry.update()
         }
 
         robot.setDrive(0.0, 0.0, 0.0)
+    }
+
+    // label on the left, value pushed to the right, like a settings row
+    private fun addRow(label: String, value: String) {
+        telemetry.addLine(label.padEnd(ROW_WIDTH - value.length) + value)
+    }
+
+    companion object {
+        private const val ROW_WIDTH = 24
     }
 }
