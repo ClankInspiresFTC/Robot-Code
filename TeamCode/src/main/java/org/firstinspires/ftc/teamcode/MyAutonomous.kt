@@ -25,7 +25,11 @@ class MyAutonomous : LinearOpMode() {
             return
         }
         while(opModeIsActive()) {
-            robot.setDrive(PI*0.5, 0.0, 0.0)
+            for(time in 1..5000){
+                robot.setDrive(PI*0.5, 0.0, 0.0)
+            }
+
+//          robot.shootingMotor(on, ???)
         }
         telemetry.addData("Runtime", "%.2f s", runtime.seconds())
         telemetry.update()
