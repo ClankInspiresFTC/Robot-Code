@@ -8,6 +8,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 import kotlin.math.atan2
 import kotlin.math.hypot
 import kotlin.math.min
+//import kotlin.math.PI
+//import kotlin.math.atan2
 
 
 @TeleOp(name = "ClankinspiresTeleOp", group = "TeleOp")
@@ -24,6 +26,8 @@ class MyTeleOp : LinearOpMode() {
         telemetry.addLine("Initialized - waiting for start")
         telemetry.update()
 
+        val robot = Robot(hardwareMap)
+
         waitForStart()
 
         while (opModeIsActive()) {
@@ -39,6 +43,14 @@ class MyTeleOp : LinearOpMode() {
             val power = min(hypot(controlX, controlY), 1.0)
 
             robot.setDrive(angle, power, turn)
+
+            val controlX = gamepad1.left_stick_x
+//            val controlY = -gamepad1.left_stick_y
+
+//            val radians = atan2(controlY, controlX)
+//            val degrees = radians * 180 / PI
+
+            robot.frontLeftMotor.power = controlX.toDouble()
 
             addRow("Angle", "%.1f°".format(Math.toDegrees(angle)))
             addRow("Power", "%.2f".format(power))

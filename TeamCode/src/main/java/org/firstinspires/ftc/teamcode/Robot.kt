@@ -33,6 +33,7 @@ class Robot(hardwareMap: HardwareMap) {
      * @param turnPower how fast to turn, -1.0 to 1.0, positive = clockwise
      */
     fun setDrive(translationAngle: Double, translationPower: Double, turnPower: Double) {
+<<<<<<< Updated upstream
         // calculate motor power for the diagonal wheel pairs
         // A/D = front left + back right, B/C = front right + back left
         var ADPower = sin(translationAngle) + cos(translationAngle)
@@ -44,6 +45,15 @@ class Robot(hardwareMap: HardwareMap) {
             ADPower = ADPower / translationScale * translationPower
             BCPower = BCPower / translationScale * translationPower
         }
+=======
+
+
+        // calculate motor power
+        val ADPower =
+            translationPower * sqrt(2.0) * 0.5 * (sin(translationAngle) + cos(translationAngle))
+        val BCPower =
+            translationPower * sqrt(2.0) * 0.5 * (sin(translationAngle) - cos(translationAngle))
+>>>>>>> Stashed changes
 
         // check if turning power will interfere with normal translation
         // check ADPower to see if trying to apply turnPower would put motor power over 1.0 or under -1.0
