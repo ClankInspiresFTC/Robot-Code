@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode
 
-import com.acmerobotics.dashboard.FtcDashboard
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import kotlin.math.atan2
 import kotlin.math.hypot
 import kotlin.math.min
+//import kotlin.math.PI
+//import kotlin.math.atan2
 
 
 @TeleOp(name = "ClankinspiresTeleOp", group = "TeleOp")
@@ -17,33 +17,46 @@ class MyTeleOp : LinearOpMode() {
         val robot = Robot(hardwareMap)
 
         // send telemetry to both the driver station and FTC Dashboard (192.168.43.1:8080/dash on a Control Hub)
-        telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
         // monospace so the padded rows below line up into a label column and a value column
         telemetry.setDisplayFormat(Telemetry.DisplayFormat.MONOSPACE)
 
         telemetry.addLine("Initialized - waiting for start")
         telemetry.update()
 
+        val robot = Robot(hardwareMap)
+
         waitForStart()
 
         while (opModeIsActive()) {
             // left stick drives/strafes, right stick x turns
             // stick y is negative when pushed up, so flip it so forward is positive
-            val controlX = gamepad1.left_stick_x.toDouble()
-            val controlY = -gamepad1.left_stick_y.toDouble()
-            val turn = gamepad1.right_stick_x.toDouble()
-
-            // angle in radians, 0 = right, PI/2 = forward (setDrive uses sin/cos, which expect radians)
-            val angle = atan2(controlY, controlX)
-            // how far the stick is pushed, capped at 1.0 since the corners can go slightly past it
+            val controlX = -gamepad1.left_stick_x.toDouble()
+            val controlY = gamepad1.left_stick_y.toDouble()
+            val rBumper = gamepad1.left_bumper
+            val rTrigger = gamepad1.right_trigger
+            val turnAngle = atan2(controlY, controlX)
             val power = min(hypot(controlX, controlY), 1.0)
 
             robot.setDrive(angle, power, turn)
 
+            val controlX = gamepad1.left_stick_x
+//            val controlY = -gamepad1.left_stick_y
+
+//            val radians = atan2(controlY, controlX)
+//            val degrees = radians * 180 / PI
+
+            robot.frontLeftMotor.power = controlX.toDouble()
+
             addRow("Angle", "%.1f°".format(Math.toDegrees(angle)))
             addRow("Power", "%.2f".format(power))
             addRow("Turn", "%.2f".format(turn))
-            telemetry.update()
+
+            if (rBumper) {
+                robot.releaseBalls()
+            }
+            robot.intakeTrigger(rTrigger.toDouble())
+            robot.setDrive(turnAngle, power, gamepad1.right_stick_x.toDouble());
+
         }
 
         robot.setDrive(0.0, 0.0, 0.0)

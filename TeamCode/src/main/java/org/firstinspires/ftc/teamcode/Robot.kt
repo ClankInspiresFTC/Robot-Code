@@ -32,7 +32,10 @@ class Robot(hardwareMap: HardwareMap) {
      * @param translationPower how fast to drive, 0.0 to 1.0
      * @param turnPower how fast to turn, -1.0 to 1.0, positive = clockwise
      */
+    val intakeMotor = hardwareMap.dcMotor.get("intake")
+
     fun setDrive(translationAngle: Double, translationPower: Double, turnPower: Double) {
+<<<<<<< Updated upstream
         // calculate motor power for the diagonal wheel pairs
         // A/D = front left + back right, B/C = front right + back left
         var ADPower = sin(translationAngle) + cos(translationAngle)
@@ -44,6 +47,15 @@ class Robot(hardwareMap: HardwareMap) {
             ADPower = ADPower / translationScale * translationPower
             BCPower = BCPower / translationScale * translationPower
         }
+=======
+
+
+        // calculate motor power
+        val ADPower =
+            translationPower * sqrt(2.0) * 0.5 * (sin(translationAngle) + cos(translationAngle))
+        val BCPower =
+            translationPower * sqrt(2.0) * 0.5 * (sin(translationAngle) - cos(translationAngle))
+>>>>>>> Stashed changes
 
         // check if turning power will interfere with normal translation
         // check ADPower to see if trying to apply turnPower would put motor power over 1.0 or under -1.0
@@ -61,5 +73,12 @@ class Robot(hardwareMap: HardwareMap) {
         backLeftMotor.power = (BCPower + turnPower) / turningScale
         frontRightMotor.power = (BCPower - turnPower) / turningScale
         backRightMotor.power = (ADPower - turnPower) / turningScale
+    }
+
+    fun intakeTrigger(Power: Double) {
+        intakeMotor.power = Power
+    }
+    fun releaseBalls() {
+        intakeMotor.power = -0.1
     }
 }
