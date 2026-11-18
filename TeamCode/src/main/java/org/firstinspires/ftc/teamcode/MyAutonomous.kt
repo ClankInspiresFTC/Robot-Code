@@ -1,8 +1,13 @@
 package org.firstinspires.ftc.teamcode
 
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.util.ElapsedTime
+//import com.arcrobotics.ftclib.geometry.Pose2d
+//import com.arcrobotics.ftclib.geometry.Pose2d
+
 import kotlin.math.PI
 
 @Autonomous(name = "MyAutonomous", group = "Autonomous")
@@ -25,8 +30,9 @@ class MyAutonomous : LinearOpMode() {
             return
         }
         while(opModeIsActive()) {
-            for(time in 1..5000){
-                robot.setDrive(PI*0.5, 0.0, 0.0)
+            for(time in 1..5000){DcMotor.RunMode.STOP_AND_RESET_ENCODER
+                robot.setDrive(0.0, 1.0, 0.0)
+
             }
 
 //          robot.shootingMotor(on, ???)
