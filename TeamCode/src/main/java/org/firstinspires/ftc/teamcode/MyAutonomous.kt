@@ -36,7 +36,7 @@ class MyAutonomous : LinearOpMode() {
 
 
             }
-            println(time/1000)
+            println((time/10000)*10)
             if(time>30000){
                 break
             }
