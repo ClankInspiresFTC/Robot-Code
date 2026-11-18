@@ -30,7 +30,8 @@ class MyAutonomous : LinearOpMode() {
             return
         }
         while(opModeIsActive()) {
-            for(time in 1..5000){DcMotor.RunMode.STOP_AND_RESET_ENCODER
+            for(time in 1..5000){
+//                DcMotor.RunMode.STOP_AND_RESET_ENCODER
                 robot.setDrive(0.0, 1.0, 0.0)
 
             }

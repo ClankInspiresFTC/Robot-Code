@@ -27,13 +27,13 @@ class Robot(hardwareMap: HardwareMap) {
         }
     }
 
+    val intakeMotor = hardwareMap.dcMotor.get("intake")
+
     /**
      * @param translationAngle direction to drive in radians, 0 = right, PI/2 = forward
      * @param translationPower how fast to drive, 0.0 to 1.0
      * @param turnPower how fast to turn, -1.0 to 1.0, positive = clockwise
      */
-    val intakeMotor = hardwareMap.dcMotor.get("intake")
-
     fun setDrive(translationAngle: Double, translationPower: Double, turnPower: Double) {
         // calculate motor power for the diagonal wheel pairs
         // A/D = front left + back right, B/C = front right + back left
