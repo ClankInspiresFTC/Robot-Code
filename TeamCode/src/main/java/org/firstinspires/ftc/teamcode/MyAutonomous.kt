@@ -34,6 +34,11 @@ class MyAutonomous : LinearOpMode() {
 //                DcMotor.RunMode.STOP_AND_RESET_ENCODER
                 robot.setDrive(0.0, 1.0, 0.0)
 
+
+            }
+            println(time/1000)
+            if(time>30000){
+                break
             }
 
 //          robot.shootingMotor(on, ???)
