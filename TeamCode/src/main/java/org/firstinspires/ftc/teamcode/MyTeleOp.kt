@@ -14,6 +14,7 @@ import kotlin.math.min
 class MyTeleOp : LinearOpMode() {
 
     override fun runOpMode() {
+        val robot = Robot(hardwareMap)
 
         // send telemetry to both the driver station and FTC Dashboard (192.168.43.1:8080/dash on a Control Hub)
         // monospace so the padded rows below line up into a label column and a value column
@@ -21,8 +22,6 @@ class MyTeleOp : LinearOpMode() {
 
         telemetry.addLine("Initialized - waiting for start")
         telemetry.update()
-
-        val robot = Robot(hardwareMap)
 
         waitForStart()
 
@@ -33,26 +32,27 @@ class MyTeleOp : LinearOpMode() {
             val controlY = gamepad1.left_stick_y.toDouble()
             val rBumper = gamepad1.left_bumper
             val rTrigger = gamepad1.right_trigger
+            val turnAngle = atan2(controlY, controlX)
+            val power = min(hypot(controlX, controlY), 1.0)
 
-            //angle the stick is pushed
-            val leftStickAngle = atan2(controlY, controlX)
+            robot.setDrive(angle, power, turn)
 
-            //How far from center the stick is
-            val leftStickPower = min(hypot(controlX, controlY), 1.0)
+//            val controlY = -gamepad1.left_stick_y
 
-            robot.frontLeftMotor.power = controlX
+//            val radians = atan2(controlY, controlX)
+//            val degrees = radians * 180 / PI
 
-            val rStickX = gamepad1.right_stick_x.toDouble()
+            robot.frontLeftMotor.power = controlX.toDouble()
 
-            addRow("RStickX", "%.1f°".format(rStickX))
-            addRow("LStickPower", "%.2f".format(leftStickPower))
-            addRow("LStickAngle", "%.2f".format(Math.toDegrees(leftStickAngle)))
+            addRow("Angle", "%.1f°".format(Math.toDegrees(angle)))
+            addRow("Power", "%.2f".format(power))
+            addRow("Turn", "%.2f".format(turn))
 
             if (rBumper) {
                 robot.releaseBalls()
             }
             robot.intakeTrigger(rTrigger.toDouble())
-            robot.setDrive(leftStickAngle, leftStickPower, rStickX);
+            robot.setDrive(turnAngle, power, gamepad1.right_stick_x.toDouble());
 
         }
 
