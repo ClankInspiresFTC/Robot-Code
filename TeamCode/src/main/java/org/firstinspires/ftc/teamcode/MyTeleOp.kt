@@ -35,18 +35,13 @@ class MyTeleOp : LinearOpMode() {
             val turnAngle = atan2(controlY, controlX)
             val power = min(hypot(controlX, controlY), 1.0)
 
-            robot.setDrive(angle, power, turn)
 
-//            val controlY = -gamepad1.left_stick_y
 
-//            val radians = atan2(controlY, controlX)
-//            val degrees = radians * 180 / PI
+            robot.frontLeftMotor.power = controlX
 
-            robot.frontLeftMotor.power = controlX.toDouble()
-
-            addRow("Angle", "%.1f°".format(Math.toDegrees(angle)))
+            addRow("Angle", "%.1f°".format(Math.toDegrees(gamepad1.right_stick_x.toDouble())))
             addRow("Power", "%.2f".format(power))
-            addRow("Turn", "%.2f".format(turn))
+            addRow("Turn", "%.2f".format(turnAngle))
 
             if (rBumper) {
                 robot.releaseBalls()
